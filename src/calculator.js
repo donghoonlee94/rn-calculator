@@ -33,6 +33,7 @@ const Button = ({ text, onPress, flex, type, isSelected }) => {
         height: 50,
         borderWidth: isSelected ? 1 : 0.2,
         borderColor: "black",
+        width: 80 * flex,
       }}>
       <Text style={{ color: 'white', fontSize: 25 }}>{text}</Text>
     </TouchableOpacity>
@@ -68,13 +69,16 @@ export default () => {
 
   return (
     <View style={{ flex: 1, width: 250, justifyContent: 'center' }}>
-      <>
-        <Text>input: {input}</Text>
-        <Text>currentOperator: {currentOperator}</Text>
-        <Text>result: {result}</Text>
-        <Text>tempInput: {tempInput}</Text>
-        <Text>tempOperator: {tempOperator}</Text>
-      </>
+      {__DEV__ && (
+        <>
+          <Text>input: {input}</Text>
+          <Text>currentOperator: {currentOperator}</Text>
+          <Text>result: {result}</Text>
+          <Text>tempInput: {tempInput}</Text>
+          <Text>tempOperator: {tempOperator}</Text>
+        </>
+      )}
+
       {/* 결과 */}
       <InputContainer>
         <Text style={{ color: 'white', fontSize: 35, textAlign: 'right' }}>{input}</Text>
