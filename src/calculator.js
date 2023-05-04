@@ -18,7 +18,7 @@ const colorMap = {
 };
 
 // Button type: 'reset' | 'operator' | 'num'
-const Button = ({ text, onPress, flex, type }) => {
+const Button = ({ text, onPress, flex, type, isSelected }) => {
   const backgroundColor = colorMap[type] || 'transparent';
 
   return (
@@ -30,7 +30,7 @@ const Button = ({ text, onPress, flex, type }) => {
         justifyContent: "center",
         alignItems: "center",
         height: 50,
-        borderWidth: 0.2,
+        borderWidth: isSelected ? 1 : 0.2,
         borderColor: "black",
       }}>
       <Text style={{ color: 'white', fontSize: 25 }}>{text}</Text>
@@ -59,6 +59,50 @@ export default () => {
   const [tempInput, setTempInput] = useState(null);
   const [tempOperator, setTempOperator] = useState(null);
 
+  const onPressNum = num => {
+    if(currentOperator) {
+      setResult(input);
+      setInput(num);
+    }else {
+      const newInput = Number(`${input}${num}`);
+      setInput(newInput);  
+    }
+  };
+
+  const onPressOperator = operator => {
+    if(operator === '=') {
+      let finalResult = result;
+      switch(currentOperator) {
+        case '+':
+          finalResult = result + input;
+          break;
+        case '-':
+          finalResult = result - input;
+          break;
+        case '*':
+          finalResult = result * input;
+          break;
+        case '/':
+          finalResult = result / input;
+          break;
+        default: 
+          break;
+      }
+      setResult(finalResult);
+      setInput(finalResult);
+    } else {
+      setCurrentOperator(operator);
+    }
+  }
+
+  const onPressReset = () => {
+    setInput(0);
+    setCurrentOperator(null);
+    setResult(null);
+    setTempInput(null);
+    setTempOperator(null);
+  };
+
   return (
     <View style={{ flex: 1, width: 250, justifyContent: 'center' }}>
       {/* 결과 */}
@@ -71,14 +115,15 @@ export default () => {
         <Button
           type="reset"
           text="AC"
-          onPress={() => null}
+          onPress={onPressReset}
           flex={3}
         />
         <Button
           type="operator"
           text="/"
-          onPress={() => null}
+          onPress={() => onPressOperator('/')}
           flex={1}
+          isSelected={currentOperator === '/'}
         />
       </ButtonContainer>
 
@@ -89,15 +134,16 @@ export default () => {
             key={num}
             type="num"
             text={`${num}`}
-            onPress={() => null}
+            onPress={() => onPressNum(num)}
             flex={1}
           />        
         ))}        
         <Button
           type="operator"
           text="X"
-          onPress={() => null}
+          onPress={() => onPressOperator('*')}
           flex={1}
+          isSelected={currentOperator === '*'}
         />
       </ButtonContainer>
 
@@ -108,15 +154,16 @@ export default () => {
             key={num}
             type="num"
             text={`${num}`}
-            onPress={() => null}
+            onPress={() => onPressNum(num)}
             flex={1}
           />        
         ))}
         <Button
           type="operator"
           text="-"
-          onPress={() => null}
+          onPress={() => onPressOperator('-')}
           flex={1}
+          isSelected={currentOperator === '-'}
         />
       </ButtonContainer>
 
@@ -127,14 +174,15 @@ export default () => {
             key={num}
             type="num"
             text={`${num}`}
-            onPress={() => null}
+            onPress={() => onPressNum(num)}
             flex={1}
           />        
-        ))}        
+        ))}
         <Button
           type="operator"
           text="+"
-          onPress={() => null}
+          onPress={() => onPressOperator('+')}
+          isSelected={currentOperator === '+'}
           flex={1}
         />
       </ButtonContainer>
@@ -144,13 +192,13 @@ export default () => {
         <Button
           type="num"
           text="0"
-          onPress={() => null}
+          onPress={() => onPressNum(0)}
           flex={3}
         />
         <Button
           type="operator"
           text="="
-          onPress={() => null}
+          onPress={() => onPressOperator('=')}
           flex={1}
         />
       </ButtonContainer>
