@@ -84,7 +84,6 @@ export default () => {
         <Text style={{ color: 'white', fontSize: 35, textAlign: 'right' }}>{input}</Text>
       </InputContainer>
 
-      {/* [AC ~ /] */}
       <ButtonContainer>
         <Button
           type="reset"
