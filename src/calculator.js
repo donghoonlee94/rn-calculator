@@ -4,7 +4,6 @@ import styled from 'styled-components/native';
 import { useState } from 'react';
 import { useCalculator } from './use-calculator';
 
-
 const COLOR = {
   RESULT: '#4e4c51',
   RESET: '#5f5e62',
